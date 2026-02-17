@@ -15,7 +15,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: 54.174.114.46
-        username: Administrator
+        username: ec2-user
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          powershell.exe -Command "Write-Host 'Deployment Successful!'"
+                  powershell.exe -Command "echo 'Hello World'"
