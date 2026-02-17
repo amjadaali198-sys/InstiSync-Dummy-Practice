@@ -2,20 +2,24 @@ name: Deploy to AWS EC2
 
 on:
   push:
-    branches: [ master ]
+    branches: [ "master" ]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Deploy to Server
-      uses: appleboy/ssh-action@master
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
       with:
-        host: 54.174.114.46
-        username: ec2-user
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-                  powershell.exe -Command "echo 'Hello World'"
+        dotnet-version: '6.0.x' # Ya jo bhi aapka version hai
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build Project
+      run: dotnet build --no-restore
+
+    - name: Status Check
+      run: echo "Build Successful and Ready for Deployment"
