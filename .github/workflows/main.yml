@@ -1,0 +1,21 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: 54.174.114.46
+        username: Administrator
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          powershell.exe -Command "Write-Host 'Deployment Successful!'"
